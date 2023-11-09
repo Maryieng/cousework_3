@@ -1,9 +1,9 @@
-from src.functions import getting_data_from_file, filtering_sorting_list, card_number, date_converter
+from src.functions import card_number, date_converter, filtering_sorting_list, getting_data_from_file
 
-new = getting_data_from_file('..\data\operations.json')  # получение списка из файла
-list_dict = filtering_sorting_list(new)                  # получение последних 5 завершенных операций
+new = getting_data_from_file('..\\data\\operations.json')
+list_dict = filtering_sorting_list(new)
 
-for dict in list_dict:                                   # цикл по списку и вывод информации в консоль
+for dict in list_dict:
     if dict['description'] == 'Открытие вклада':
         print(f'''{date_converter(dict['date'])} {dict['description']}
 {card_number(dict['to'])}
