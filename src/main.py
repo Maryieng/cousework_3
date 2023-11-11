@@ -1,16 +1,16 @@
 from src.functions import card_number, date_converter, filtering_sorting_list, getting_data_from_file
 
-new = getting_data_from_file('..\\data\\operations.json')
-list_dict = filtering_sorting_list(new)
+list_operations = getting_data_from_file()
+operations = filtering_sorting_list(list_operations)
 
-for dict in list_dict:
-    if dict['description'] == 'Открытие вклада':
-        print(f'''{date_converter(dict['date'])} {dict['description']}
-{card_number(dict['to'])}
-{dict['operationAmount']['amount']} {dict['operationAmount']['currency']['name']}
+for operation in operations:
+    if operation['description'] == 'Открытие вклада':
+        print(f'''{date_converter(operation['date'])} {operation['description']}
+Неизвестно -> {card_number(operation['to'])}
+{operation['operationAmount']['amount']} {operation['operationAmount']['currency']['name']}
 ''')
     else:
-        print(f'''{date_converter(dict['date'])} {dict['description']}
-{card_number(dict.get('from'))} -> {card_number(dict['to'])}
-{dict['operationAmount']['amount']} {dict['operationAmount']['currency']['name']}
+        print(f'''{date_converter(operation['date'])} {operation['description']}
+{card_number(operation.get('from'))} -> {card_number(operation['to'])}
+{operation['operationAmount']['amount']} {operation['operationAmount']['currency']['name']}
 ''')

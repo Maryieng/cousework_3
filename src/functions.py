@@ -1,11 +1,14 @@
 import datetime
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
+import os
 
 
-def getting_data_from_file(filename) -> Any:
+def getting_data_from_file() -> Any:
     """ считывает из файла данные """
-    with open(filename, encoding="utf8") as file:
+    current_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(current_directory, 'data', 'operations.json')
+    with open(file_path, encoding='utf-8') as file:
         return json.load(file)
 
 
