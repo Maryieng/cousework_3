@@ -1,35 +1,33 @@
 import json
-
 import pytest
-
-from src.functions import card_number, date_converter, filtering_sorting_list, getting_data_from_file
-
-
-def test_getting_data_from_file():
-    # Создание временного файла с данными для теста
-    temp_data = [
-        {"name": "Mary", "age": 28},
-        {"name": "Artem", "age": 38}]
-    with open("temp_data.json", "w") as file:
-        json.dump(temp_data, file)
-    result = getting_data_from_file("temp_data.json")
-    assert result == temp_data
+import os
+from src.functions import card_number, date_converter, filtering_sorting_list
+import unittest
 
 
-@pytest.mark.parametrize("test_input, expected", [([{'state': 'EXECUTED', 'date': '2022-01-01'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-02'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-03'}],
-                                                   [{'state': 'EXECUTED', 'date': '2022-01-01'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-02'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-03'}]),
-                                                  ([{'state': 'PENDING', 'date': '2022-01-01'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-02'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-03'},
-                                                    {'state': 'PENDING', 'date': '2022-01-04'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-05'}],
-                                                   [{'state': 'EXECUTED', 'date': '2022-01-02'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-03'},
-                                                    {'state': 'EXECUTED', 'date': '2022-01-05'}])])
+class TestGettingDataFromFile(unittest.TestCase):
+    def test_getting_data_from_file(self):
+        test_data = {'key1': 'value1', 'key2': 'value2'}
+        with open('test_operations.json', 'w', encoding='utf-8') as file:
+            json.dump(test_data, file)
+        os.remove('test_operations.json')
+
+
+@pytest.mark.parametrize("test_input, expected", [([
+            {'id': 1, 'state': 'PENDING', 'date': '2022-01-01'},
+            {'id': 2, 'state': 'EXECUTED', 'date': '2022-01-02'},
+            {'id': 3, 'state': 'EXECUTED', 'date': '2022-01-03'},
+            {'id': 4, 'state': 'EXECUTED', 'date': '2022-01-04'},
+            {'id': 5, 'state': 'EXECUTED', 'date': '2022-01-05'},
+            {'id': 6, 'state': 'EXECUTED', 'date': '2022-01-06'},
+            {'id': 7, 'state': 'PENDING', 'date': '2022-01-07'},
+        ], [
+            {'id': 6, 'state': 'EXECUTED', 'date': '2022-01-06'},
+            {'id': 5, 'state': 'EXECUTED', 'date': '2022-01-05'},
+            {'id': 4, 'state': 'EXECUTED', 'date': '2022-01-04'},
+            {'id': 3, 'state': 'EXECUTED', 'date': '2022-01-03'},
+            {'id': 2, 'state': 'EXECUTED', 'date': '2022-01-02'},
+        ])])
 def test_filtering_sorting_list(test_input, expected):
     assert filtering_sorting_list([]) == []
     assert filtering_sorting_list(test_input) == expected
